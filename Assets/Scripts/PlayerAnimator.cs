@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour {
     private const string IS_WALKING = "IsWalking";
 
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private Player playerController;
 
     private Animator animator;
 
