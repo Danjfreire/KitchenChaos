@@ -8,11 +8,20 @@ public class Player : MonoBehaviour {
 
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float turnSpeed = 10.0f;
+    [SerializeField] private LayerMask countersLayerMask;
+
     private float playerRadius = 0.7f;
     private float playerHeight = 2.0f;
+    private float interactDistance = 2.0f;
+    private Vector3 lastInteractDirection;
 
     private bool isWalking;
     private void Update() {
+        HandleMovement();
+        HandleInteractions();
+    }
+
+    private void HandleMovement() {
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
 
         Vector3 moveDirection = new Vector3(inputVector.x, 0, inputVector.y);
@@ -53,7 +62,24 @@ public class Player : MonoBehaviour {
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, turnSpeed * Time.deltaTime);
     }
 
+    private void HandleInteractions() {
+        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector3 moveDirection = new Vector3(inputVector.x, 0, inputVector.y);
+
+        if (moveDirection != Vector3.zero) {
+            lastInteractDirection = moveDirection;
+        }
+
+
+        if (Physics.Raycast(transform.position, lastInteractDirection, out RaycastHit raycastHit, interactDistance, countersLayerMask)) {
+            if(raycastHit.transform.TryGetComponent(out ClearCounter clearCounter)) {
+                clearCounter.Interact();
+            }
+        }
+    }
+
     public bool IsWalking() {
         return isWalking;
     }
+
 }
