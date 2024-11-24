@@ -16,7 +16,36 @@ public class Player : MonoBehaviour
         Vector2 inputVector = gameInput.GetNormalizedMovementVector();
 
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
+
+        float moveDistance = moveSpeed * Time.deltaTime;
+        float playerHeight = 2f;
+        float playerRadius = 0.7f;
+
+        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius,moveDir,moveDistance);
+        // If player is trying to move diagonally and it's blocked, check if it's possible to move on a single direction
+        if (!canMove) {
+            Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized; // normalized so the speed is not reduced
+
+            canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
+            if (canMove) {
+                // Can move only on the X
+                moveDir = moveDirX;
+            } else {
+                Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized; // normalized so the speed is not reduced
+
+                canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
+
+                if (canMove) {
+                    // Can move only on the Z
+                    moveDir = moveDirZ;
+                }
+            }
+        }
+
+
+        if (canMove) {
+            transform.position += moveDir * moveDistance;
+        }
 
         float rotateSpeed = 10f;
         this.isWalking = moveDir != Vector3.zero;
