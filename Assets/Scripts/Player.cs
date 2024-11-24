@@ -8,10 +8,39 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private GameInput gameInput;
+    [SerializeField] private LayerMask countersLayerMask;
 
     private bool isWalking = false;
 
     private void Update()
+    {
+        HandleMovement();
+        HandleInteractions();
+    }
+
+    public bool IsWalking()
+    {
+        return this.isWalking;
+    }
+
+    private void HandleInteractions()
+    {
+        Vector2 inputVector = gameInput.GetNormalizedMovementVector();
+        Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
+
+        float interactionRange = 2f;
+        bool hit = Physics.Raycast(transform.position, moveDir, out RaycastHit hitInfo, interactionRange, countersLayerMask);
+
+        if (hit) {
+            if (hitInfo.transform.TryGetComponent(out ClearCounter counter)) {
+                counter.Interact();
+            } 
+
+        } 
+
+    }
+
+    private void HandleMovement()
     {
         Vector2 inputVector = gameInput.GetNormalizedMovementVector();
 
@@ -21,7 +50,7 @@ public class Player : MonoBehaviour
         float playerHeight = 2f;
         float playerRadius = 0.7f;
 
-        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius,moveDir,moveDistance);
+        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
         // If player is trying to move diagonally and it's blocked, check if it's possible to move on a single direction
         if (!canMove) {
             Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized; // normalized so the speed is not reduced
@@ -50,10 +79,5 @@ public class Player : MonoBehaviour
         float rotateSpeed = 10f;
         this.isWalking = moveDir != Vector3.zero;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
-    }
-
-    public bool IsWalking()
-    {
-        return this.isWalking;
     }
 }
