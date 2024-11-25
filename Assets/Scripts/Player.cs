@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,36 @@ using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
+
+    public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
+    public class OnSelectedCounterChangedEventArgs : EventArgs 
+    {
+        public ClearCounter counter;
+    }
 
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask countersLayerMask;
 
     private bool isWalking = false;
+    private Vector3 lastInteractionDir;
+    private ClearCounter selectedCounter;
+
+    private void Awake()
+    {
+        if (Instance != null) {
+            Debug.LogError("Trying to create Multiple Player instances");
+            return;
+        }
+
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        gameInput.OnInteraction += GameInput_OnInteraction;
+    }
 
     private void Update()
     {
@@ -20,7 +45,16 @@ public class Player : MonoBehaviour
 
     public bool IsWalking()
     {
-        return this.isWalking;
+        return isWalking;
+    }
+
+    private void GameInput_OnInteraction(object sender, System.EventArgs e)
+    {
+        if (selectedCounter != null) {
+            selectedCounter.Interact();
+        }
+
+        Debug.Log("OnInteraction");
     }
 
     private void HandleInteractions()
@@ -28,16 +62,34 @@ public class Player : MonoBehaviour
         Vector2 inputVector = gameInput.GetNormalizedMovementVector();
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
+        if (moveDir != Vector3.zero) {
+            lastInteractionDir = moveDir;
+        }
+
+
         float interactionRange = 2f;
-        bool hit = Physics.Raycast(transform.position, moveDir, out RaycastHit hitInfo, interactionRange, countersLayerMask);
+        bool hit = Physics.Raycast(transform.position, lastInteractionDir, out RaycastHit hitInfo, interactionRange, countersLayerMask);
 
         if (hit) {
             if (hitInfo.transform.TryGetComponent(out ClearCounter counter)) {
-                counter.Interact();
-            } 
+                //counter.Interact();
+                if (selectedCounter != counter) {
+                   SetSelectedCounter(counter);
+                }
+            } else {
+                SetSelectedCounter(null);
+            }
+        } else {
+            SetSelectedCounter(null);
+        }
 
-        } 
+    }
 
+    private void SetSelectedCounter(ClearCounter counter)
+    {
+        this.selectedCounter = counter;
+
+        OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs { counter = selectedCounter });
     }
 
     private void HandleMovement()
