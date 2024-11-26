@@ -122,6 +122,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &21911734 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8324913847458290786, guid: e50c33dbe8687224aa4ae2b833b8fe3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 130404122}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0022eb2176e10c84b97d8e9a99d16ba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &119122971
 GameObject:
   m_ObjectHideFlags: 3
@@ -1088,6 +1100,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -180
       objectReference: {fileID: 0}
+    - target: {fileID: 8324913847458290786, guid: e50c33dbe8687224aa4ae2b833b8fe3c,
+        type: 3}
+      propertyPath: testing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8324913847458290786, guid: e50c33dbe8687224aa4ae2b833b8fe3c,
+        type: 3}
+      propertyPath: secondCounter
+      value: 
+      objectReference: {fileID: 21911734}
     - target: {fileID: 8324913847458290786, guid: e50c33dbe8687224aa4ae2b833b8fe3c,
         type: 3}
       propertyPath: kitchenObjectSO
