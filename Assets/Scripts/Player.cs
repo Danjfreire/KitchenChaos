@@ -154,4 +154,10 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     {
         this.kitchenObject = kitchenObject;
     }
+
+    public KitchenObject GetKitchenObject()
+    {
+        return kitchenObject;
+    }
+
 }

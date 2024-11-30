@@ -11,4 +11,6 @@ public interface IKitchenObjectParent
     public void ClearKitchenObject();
 
     public void SetKitchenObject(KitchenObject kitchenObject);
+
+    public KitchenObject GetKitchenObject();
 }
