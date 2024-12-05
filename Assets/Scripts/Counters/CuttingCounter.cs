@@ -16,7 +16,7 @@ public class CuttingCounter : KitchenCounter, IHasProgress
     public override void Interact(Player player)
     {
         if (!HasKitchenObject()) {
-            // place player kitchen object on clear counter if possible
+            // place player kitchen object on counter if possible
             if (player.HasKitchenObject()) {
                 KitchenObject kitchenObject = player.GetKitchenObject();
 
@@ -32,9 +32,17 @@ public class CuttingCounter : KitchenCounter, IHasProgress
                 }
             }
         } else {
+
             // give kitchen object to player if possible
             if (!player.HasKitchenObject()) {
                 GetKitchenObject().SetKitchenObjectParent(player);
+            } else {
+                // If player is holding a plate, add ingredient to plate
+                if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plate)) {
+                    if (plate.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO())) {
+                        GetKitchenObject().DestroySelf();
+                    }
+                }
             }
         }
     }

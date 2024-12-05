@@ -125,6 +125,19 @@ public class StoveCounter : KitchenCounter, IHasProgress
                 OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs {
                     normalizedProgress = 0
                 });
+            } else {
+                // If player is holding a plate, add ingredient to plate
+                if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plate)) {
+                    if (plate.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO())) {
+                        GetKitchenObject().DestroySelf();
+                    }
+
+                    state = State.Idle;
+                    OnStateChanged?.Invoke(this, new OnStateChangedEventArgs { state = state });
+                    OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs {
+                        normalizedProgress = 0
+                    });
+                }
             }
         }
     }
