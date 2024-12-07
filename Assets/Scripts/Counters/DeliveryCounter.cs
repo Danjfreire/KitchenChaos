@@ -10,6 +10,8 @@ public class DeliveryCounter : KitchenCounter
         if(player.HasKitchenObject()) {
             // only accepts plates
             if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plate)) {
+
+                DeliveryManager.Instance.DeliverRecipe(plate);
                 plate.DestroySelf();
             }
         }

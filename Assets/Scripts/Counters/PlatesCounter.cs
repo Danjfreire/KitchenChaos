@@ -25,7 +25,6 @@ public class PlatesCounter : KitchenCounter
             if (plateAmount < plateAmountMax) {
                 plateAmount++;
                 OnPlateSpawned?.Invoke(this, EventArgs.Empty);
-                Debug.Log("Spawning plate");
             }
         }
     }

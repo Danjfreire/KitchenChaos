@@ -30,7 +30,6 @@ public class PlatesCounterVisual : MonoBehaviour
 
     private void PlatesCounter_OnPlateSpawned(object sender, System.EventArgs e)
     {
-        Debug.Log("OnPlateSpawned");
         Transform plateVisualTransform =  Instantiate(plateVisualPrefab, platesCounter.GetAttachTransform());
 
         // offset plate Y based on how many plates are spawned
