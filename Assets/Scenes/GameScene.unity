@@ -362,7 +362,7 @@ Transform:
   m_GameObject: {fileID: 193394573}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3907311, y: 0, z: 0, w: 0.9205049}
-  m_LocalPosition: {x: 0, y: 21.5, z: -21.3}
+  m_LocalPosition: {x: 2, y: 21.5, z: -21.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -509,7 +509,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3907311, y: 0, z: 0, w: 0.9205049}
-  m_LocalPosition: {x: 0, y: 21.5, z: -21.3}
+  m_LocalPosition: {x: 2, y: 21.5, z: -21.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -711,6 +711,12 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!4 &430571725 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7843157214649934062, guid: afee4f95a124f114abe62ed19aade046,
+    type: 3}
+  m_PrefabInstance: {fileID: 847067222}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &444278469
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1081,6 +1087,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &847067222
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1038469089}
+    m_Modifications:
+    - target: {fileID: 7843157214649934062, guid: afee4f95a124f114abe62ed19aade046,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.3740225
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843157214649934062, guid: afee4f95a124f114abe62ed19aade046,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843157214649934062, guid: afee4f95a124f114abe62ed19aade046,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.0567178
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843157214649934062, guid: afee4f95a124f114abe62ed19aade046,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071079
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843157214649934062, guid: afee4f95a124f114abe62ed19aade046,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843157214649934062, guid: afee4f95a124f114abe62ed19aade046,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071057
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843157214649934062, guid: afee4f95a124f114abe62ed19aade046,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843157214649934062, guid: afee4f95a124f114abe62ed19aade046,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843157214649934062, guid: afee4f95a124f114abe62ed19aade046,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843157214649934062, guid: afee4f95a124f114abe62ed19aade046,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9129792541008807188, guid: afee4f95a124f114abe62ed19aade046,
+        type: 3}
+      propertyPath: m_Name
+      value: DeliveryCounter
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: afee4f95a124f114abe62ed19aade046, type: 3}
 --- !u!1 &885597354
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,6 +1314,7 @@ Transform:
   - {fileID: 1873287027}
   - {fileID: 174388826}
   - {fileID: 657259484}
+  - {fileID: 430571725}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1151136936 stripped
