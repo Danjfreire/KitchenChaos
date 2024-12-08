@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DeliveryManager : MonoBehaviour
 {
+    public event EventHandler OnRecipeSpawned;
+    public event EventHandler OnRecipeDelivered;
 
     public static DeliveryManager Instance { get; private set; }
     [SerializeField] private RecipeListSO recipeListSO;
@@ -27,9 +30,10 @@ public class DeliveryManager : MonoBehaviour
 
             if (waitingRecipeSOList.Count < maxWaitingRecipes) {
                 // pick a random recipe and add it to the list of pending recipes
-                RecipeSO recipe = recipeListSO.recipeSOList[Random.Range(0, recipeListSO.recipeSOList.Count)];
+                RecipeSO recipe = recipeListSO.recipeSOList[UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count)];
                 waitingRecipeSOList.Add(recipe);
-                Debug.Log("Requesting recipe:" + recipe.recipeName);
+
+                OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
             }
         }
     }
@@ -38,11 +42,9 @@ public class DeliveryManager : MonoBehaviour
     {
         for (int i = 0; i < waitingRecipeSOList.Count; i++) {
             RecipeSO recipe = waitingRecipeSOList[i];
-            Debug.Log("Start cheking for " + recipe.recipeName);
-
+            
             // ignore if the amount of ingredients is different
             if (recipe.ingredients.Count != plate.GetIngredientList().Count) {
-                Debug.Log("Skip because of ingredient count");
                 continue;
             }
 
@@ -54,11 +56,8 @@ public class DeliveryManager : MonoBehaviour
                 foreach (KitchenObjectSO requiredIngredient in plate.GetIngredientList()) {
                     if (ingredient == requiredIngredient) {
                         hasIngredient = true;
-                        Debug.Log("Found ingredient:" + ingredient.objectName);
                         break;
                     }
-
-                    Debug.Log("Did not Found ingredient:" + requiredIngredient.objectName);
                 }
 
                 if (!hasIngredient) {
@@ -69,15 +68,18 @@ public class DeliveryManager : MonoBehaviour
 
             if (plateMatchesRecipe) {
                 // Player delivered the correct recipe
-                Debug.Log("Delivered correct recipe at index:" + i);
                 waitingRecipeSOList.RemoveAt(i);
+                OnRecipeDelivered?.Invoke(this, EventArgs.Empty);
                 return true;
             }
-
-            Debug.Log("-------------------------------------------------------------------");
         }
 
-        Debug.Log("No recipe match");
+        OnRecipeDelivered?.Invoke(this, EventArgs.Empty);
         return false;
+    }
+
+    public List<RecipeSO> GetWaitingRecipeSOList()
+    {
+        return waitingRecipeSOList;
     }
 }
