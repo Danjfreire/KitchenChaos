@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66cb31378e7f09949bfa4cb3c3b57818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kitchenCounter: {fileID: 0}
+  kitchenCounter: {fileID: 7727709502195256432}
   visualGameObjectArray:
   - {fileID: 1266516843756278910}
 --- !u!4 &1167345774259234721 stripped
