@@ -21,18 +21,36 @@ public class PauseMenuUI : MonoBehaviour
         });
 
         optionsButton.onClick.AddListener(() => {
-            OptionsUI.Instance.Show();
+            Hide();
+            OptionsUI.Instance.Show(() => {
+                Show();
+            });
         });
     }
 
     private void Start()
     {
         GameManager.Instance.OnPauseToggled += GameManager_OnPauseToggled;
-        gameObject.SetActive(false);
+        Hide();
     }
 
     private void GameManager_OnPauseToggled(object sender, GameManager.PauseToggledEventArgs e)
     {
-        gameObject.SetActive(e.isPaused);
+        if (e.isPaused) {
+            Show();
+        } else {
+            Hide();
+        }
+    }
+
+    private void Show()
+    {
+        gameObject.SetActive(true);
+        resumeButton.Select();
+    }
+
+    private void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

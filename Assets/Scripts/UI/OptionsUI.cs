@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,12 +30,21 @@ public class OptionsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private TextMeshProUGUI interactAltText;
 
+    // gamepad options
+    [SerializeField] private Button gamepadInteractButton;
+    [SerializeField] private Button gamepadInteractAltButton;
+    [SerializeField] private TextMeshProUGUI gamepadInteractText;
+    [SerializeField] private TextMeshProUGUI gamepadInteractAltText;
+
+    // menu callback
+    private Action onCloseButtonAction;
 
     [SerializeField] private Button closeButton;
     private void Awake()
     {
         Instance = this;
 
+        // sfx options
         sfxButton.onClick.AddListener(() => {
             SoundManager.Instance.ChangeVolume();
             UpdateOptionsText();
@@ -46,9 +56,10 @@ public class OptionsUI : MonoBehaviour
         });
 
         closeButton.onClick.AddListener(() => {
-            gameObject.SetActive(false);
+            Hide();
         });
 
+        // keybindings
         moveUpButton.onClick.AddListener(() => {
             RebindBinding(GameInput.Binding.Move_Up, moveUpText);
         });
@@ -72,6 +83,16 @@ public class OptionsUI : MonoBehaviour
         interactAltButton.onClick.AddListener(() => {
             RebindBinding(GameInput.Binding.InteractAlternate, interactAltText);
         });
+
+        // gamepad bindings
+        gamepadInteractButton.onClick.AddListener(() => {
+            RebindBinding(GameInput.Binding.Gamepad_Interact, gamepadInteractText);
+        });
+
+        interactAltButton.onClick.AddListener(() => {
+            RebindBinding(GameInput.Binding.Gamepad_InteractAlternate, gamepadInteractAltText);
+        });
+
     }
 
     private void Start()
@@ -84,7 +105,7 @@ public class OptionsUI : MonoBehaviour
 
     private void GameManager_OnPauseToggled(object sender, GameManager.PauseToggledEventArgs e)
     {
-        gameObject.SetActive(false);
+        Hide();
     }
 
     private void UpdateOptionsText()
@@ -98,6 +119,8 @@ public class OptionsUI : MonoBehaviour
         moveRightText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Right);
         interactText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact);
         interactAltText.text = GameInput.Instance.GetBindingText(GameInput.Binding.InteractAlternate);
+        gamepadInteractText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Interact);
+        gamepadInteractAltText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_InteractAlternate);
     }
 
     private void RebindBinding(GameInput.Binding binding, TextMeshProUGUI btnTxt)
@@ -108,8 +131,18 @@ public class OptionsUI : MonoBehaviour
         });
     }
 
-    public void Show()
+    public void Show(Action onCloseButtonAction)
     {
+        this.onCloseButtonAction = onCloseButtonAction;
         gameObject.SetActive(true);
+        sfxButton.Select();
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+        if (onCloseButtonAction != null) {
+            onCloseButtonAction();
+        }
     }
 }
