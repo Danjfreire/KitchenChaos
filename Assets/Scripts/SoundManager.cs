@@ -17,8 +17,10 @@ public class SoundManager : MonoBehaviour
     {
         DeliveryManager.Instance.OnDeliverySuccess += DeliveryManager_OnDeliverySuccess;
         DeliveryManager.Instance.OnDeliveryFailure += DeliveryManager_OnDeliveryFailure;
-        CuttingCounter.OnAnyCut += CuttingCounter_OnAnyCut;
         Player.Instance.OnObjectPickedUp += Player_OnObjectPickedUp;
+        
+        // static events
+        CuttingCounter.OnAnyCut += CuttingCounter_OnAnyCut;
         KitchenCounter.OnAnyObjectPlaced += KitchenCounter_OnAnyObjectPlaced;
         TrashCounter.OnAnyObjectTrashed += TrashCounter_OnAnyObjectTrashed;
     }

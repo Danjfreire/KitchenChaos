@@ -20,6 +20,9 @@ public class MainMenuUI : MonoBehaviour
         quitButton.onClick.AddListener(() => {
             Application.Quit();
         });
+
+        // reset game timescale to default
+        Time.timeScale = 1f;
     }
 
 }
