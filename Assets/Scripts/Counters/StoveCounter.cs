@@ -142,6 +142,11 @@ public class StoveCounter : KitchenCounter, IHasProgress
         }
     }
 
+    public bool IsFried()
+    {
+        return state == State.Fried;
+    }
+
     private bool HasFryingRecipe(KitchenObjectSO kitchenObjectSO)
     {
         FryingRecipeSO recipe = GetFryingRecipeForInput(kitchenObjectSO);
